@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Job Application Agent</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div>
+          <p class="eyebrow">Agent Console</p>
+          <h1>Job Application Agent</h1>
+        </div>
+        <nav aria-label="Workflow">
+          <a href="#job" class="active">1. Job</a>
+          <a href="#resume">2. Resume</a>
+          <a href="#tailor">3. Tailor</a>
+          <a href="#submit">4. Apply</a>
+        </nav>
+        <div class="agent-state">
+          <span class="pulse"></span>
+          <span id="agentStatus">Ready</span>
+        </div>
+      </aside>
+
+      <main>
+        <section class="workspace" id="job">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Input</p>
+              <h2>Job Description</h2>
+            </div>
+            <button id="fetchJobBtn" class="primary">Fetch JD</button>
+          </div>
+          <div class="url-row">
+            <input id="jobUrl" type="url" placeholder="https://company.com/careers/job-id" />
+          </div>
+          <textarea id="jobText" placeholder="Fetched job description appears here. You can also paste a JD directly."></textarea>
+          <div class="meta-row">
+            <span id="jobTitle">No job loaded</span>
+            <span id="jobLength">0 words</span>
+          </div>
+        </section>
+
+        <section class="workspace split" id="resume">
+          <div class="panel">
+            <div class="section-head compact">
+              <div>
+                <p class="eyebrow">Upload</p>
+                <h2>Resume</h2>
+              </div>
+              <button id="analyzeBtn">Analyze</button>
+            </div>
+            <label class="dropzone" for="resumeFile">
+              <input id="resumeFile" type="file" accept=".txt,.pdf,.docx" />
+              <strong id="resumeFileName">Choose resume</strong>
+              <span id="resumeFileMeta">.txt, .docx, or text-based .pdf</span>
+            </label>
+            <div class="score-block">
+              <div class="score-ring">
+                <span id="scoreValue">--</span>
+                <small>ATS</small>
+              </div>
+              <div>
+                <h3 id="scoreLabel">Waiting for analysis</h3>
+                <p id="scoreDetail">Upload your resume and compare it against the JD.</p>
+              </div>
+            </div>
+            <div id="scoreExplain" class="score-explain empty">ATS scoring details will appear after analysis.</div>
+          </div>
+
+          <div class="panel">
+            <p class="eyebrow">Match Report</p>
+            <div class="tabs">
+              <button class="tab active" data-tab="matched">Matched</button>
+              <button class="tab" data-tab="missing">Missing</button>
+              <button class="tab" data-tab="skills">Skills</button>
+            </div>
+            <div id="keywordCloud" class="keyword-cloud empty">No analysis yet</div>
+          </div>
+        </section>
+
+        <section class="workspace" id="resumePreview">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Extracted Text</p>
+              <h2>Resume Preview</h2>
+            </div>
+            <span id="resumeWordCount" class="preview-count">No resume analyzed</span>
+          </div>
+          <textarea id="resumePreviewText" readonly placeholder="After analysis, the text extracted from your resume will appear here so you can verify what the ATS scorer actually read."></textarea>
+        </section>
+
+        <section class="workspace" id="tailor">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Optimize</p>
+              <h2>Tailored Resume Draft</h2>
+            </div>
+            <button id="tailorBtn">Tailor Resume</button>
+          </div>
+          <div class="tailor-grid">
+            <div>
+              <h3>Professional Summary</h3>
+              <textarea id="summaryOut" readonly placeholder="Tailored summary will appear here."></textarea>
+            </div>
+            <div>
+              <h3>Recommended Skills</h3>
+              <div id="skillsOut" class="keyword-cloud empty">No tailored skills yet</div>
+            </div>
+          </div>
+          <div>
+            <h3>Resume Bullets</h3>
+            <div id="bulletsOut" class="bullets empty">No bullets generated yet</div>
+          </div>
+          <div>
+            <h3>Cover Note</h3>
+            <textarea id="coverOut" readonly placeholder="Optional cover note will appear here."></textarea>
+          </div>
+        </section>
+
+        <section class="workspace" id="submit">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Human Reviewed</p>
+              <h2>Application Package</h2>
+            </div>
+            <button id="submitBtn">Prepare Apply Steps</button>
+          </div>
+          <div class="apply-grid">
+            <input id="candidateName" placeholder="Full name" />
+            <input id="candidateEmail" type="email" placeholder="Email" />
+            <input id="candidatePhone" placeholder="Phone" />
+            <input id="applicationUrl" type="url" placeholder="Application form URL" />
+          </div>
+          <div id="applyPlan" class="apply-plan empty">No application plan yet</div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" role="status"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
